@@ -1,9 +1,12 @@
 FROM node:18-alpine
 WORKDIR /app
 
-# Stiahni celý Postiz z originálneho repa
-RUN apk add git
-RUN git clone https://github.com/gitroomhq/postiz.git .
+# Stiahni Postiz ako ZIP
+RUN apk add unzip curl
+RUN curl -L https://github.com/gitroomhq/postiz/archive/refs/heads/main.zip -o postiz.zip && \
+    unzip postiz.zip && \
+    mv postiz-main/* . && \
+    rm -rf postiz.zip postiz-main
 
 # Inštaluj a builduj
 RUN npm install
